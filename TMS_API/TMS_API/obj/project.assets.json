@@ -12945,11 +12945,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\www-app\\TMS_API\\TMS_API\\TMS_API.csproj",
+      "projectUniqueName": "E:\\www-app\\TMS\\TMS_API\\TMS_API\\TMS_API.csproj",
       "projectName": "TMS_API",
-      "projectPath": "E:\\www-app\\TMS_API\\TMS_API\\TMS_API.csproj",
+      "projectPath": "E:\\www-app\\TMS\\TMS_API\\TMS_API\\TMS_API.csproj",
       "packagesPath": "C:\\Users\\Jayed\\.nuget\\packages\\",
-      "outputPath": "E:\\www-app\\TMS_API\\TMS_API\\obj\\",
+      "outputPath": "E:\\www-app\\TMS\\TMS_API\\TMS_API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

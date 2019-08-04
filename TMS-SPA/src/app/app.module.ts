@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
    declarations: [
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
    ],
    imports: [
       BrowserModule,
+      HttpClientModule,
       FormsModule,
       BsDropdownModule.forRoot(),
       RouterModule.forRoot(appRoutes)
