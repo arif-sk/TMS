@@ -56,6 +56,7 @@ namespace TMS_API
                 app.UseDeveloperExceptionPage();
             }
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

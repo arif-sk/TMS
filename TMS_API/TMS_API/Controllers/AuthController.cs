@@ -38,7 +38,9 @@ namespace TMS_API.Controllers
                 LastName = userForRegisterDto.LastName,
                 Email = userForRegisterDto.Email,
                 Mobile = userForRegisterDto.Mobile,
-                Address = userForRegisterDto.Address
+                Address = userForRegisterDto.Address,
+                UserRole = "Admin"
+
             };
             var createdUser = await _authRepsitory.Register(userToCreate, userForRegisterDto.Password);
             return StatusCode(201);
@@ -52,7 +54,9 @@ namespace TMS_API.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                new Claim(ClaimTypes.Name,userForLoginDtos.email)
+                new Claim(ClaimTypes.Name,userForLoginDtos.email),
+                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.Role, "User")
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8
                             .GetBytes(_conf.GetSection("AppSettings:Token").Value));

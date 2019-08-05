@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TMS_API.Controllers
@@ -11,6 +12,7 @@ namespace TMS_API.Controllers
     public class ValuesController : ControllerBase
     {
         // GET api/values
+        [Authorize(Roles = "User, Admin")]
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
@@ -18,6 +20,7 @@ namespace TMS_API.Controllers
         }
 
         // GET api/values/5
+        [Authorize(Roles = "User")]
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
@@ -37,9 +40,11 @@ namespace TMS_API.Controllers
         }
 
         // DELETE api/values/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public string Delete(int id)
         {
+            return "deleted";
         }
     }
 }
