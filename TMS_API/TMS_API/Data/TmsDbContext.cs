@@ -11,5 +11,6 @@ namespace TMS_API.Data
     {
         public TmsDbContext(DbContextOptions<TmsDbContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserTask> Tasks { get; set; }
     }
 }

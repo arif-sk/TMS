@@ -11,13 +11,15 @@ import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 @NgModule({
    declarations: [
       AppComponent,
       NavComponent,
       RegistrationComponent,
-      LoginComponent
+      LoginComponent,
+      AdminDashboardComponent
    ],
    imports: [
       BrowserModule,
