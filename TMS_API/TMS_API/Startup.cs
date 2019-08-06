@@ -35,6 +35,7 @@ namespace TMS_API
             services.AddCors();
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters

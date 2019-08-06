@@ -9,27 +9,53 @@ import { AlertifyService } from '../_services/alertify.service';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
-  task: any = {};
+  UserTask: any = {};
   modalRef: BsModalRef;
   public allTaskList: ITaskUserView[];
   result: boolean;
+  public allUsers: IUser[];
+  addedTask: ITask;
   constructor(private modalService: BsModalService,
-     private adminServices: AdminDashboardService, private alertify: AlertifyService) { }
+     private adminServices: AdminDashboardService, private alertify: AlertifyService) {
+      this.getAllUsers();
+  }
 
   ngOnInit() {
     this.getAllTaskList();
   }
-  openModal(template: TemplateRef<any>) {
+  openTaskModal(template: TemplateRef<any>) {
+    this.UserTask = {
+      id: 0,
+      TaskName: '',
+      Description: '',
+      StartDate: new Date,
+      EndDate: new Date,
+      AssignedTo: null
+    };
     this.modalRef = this.modalService.show(template);
   }
+  closeTaskModal() {
+    this.modalRef.hide();
+  }
 
-  addTask(task: any) {
-
+  addTask(UserTask: any) {
+    this.adminServices.addTask(this.UserTask).subscribe( resp => {
+      this.addedTask = resp as ITask;
+      this.getAllTaskList();
+      this.closeTaskModal();
+      this.alertify.success('Task added successfully');
+    }, error => {
+      this.alertify.error('Error occured while adding task');
+    });
   }
   getAllTaskList() {
     this.adminServices.getAllTaskList().subscribe ( resp => {
       this.allTaskList = resp as ITaskUserView[];
-      console.log(this.allTaskList);
+    });
+  }
+  getAllUsers() {
+    this.adminServices.getAllUsers().subscribe ( resp => {
+      this.allUsers = resp as IUser[];
     });
   }
   editTask(t: ITaskUserView) {
@@ -48,6 +74,12 @@ export class AdminDashboardComponent implements OnInit {
        }
     });
   }
+  editUser(u: IUser) {
+
+  }
+  deleteUser(u: IUser) {
+
+  }
 }
 
 interface ITaskUserView {
@@ -58,4 +90,21 @@ interface ITaskUserView {
   endDate: Date;
   assignedTo: number;
   assignedUser: string;
+}
+interface IUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  mobile: string;
+  address: string;
+  userRole: string;
+}
+interface ITask {
+  id: number;
+  taskName: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  assignedTo: number;
 }
