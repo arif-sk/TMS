@@ -15,15 +15,47 @@ namespace TMS_API.Models
         {
             _tmsDbContext = tmsDbContext;
         }
-        public async Task<IList<UserTask>> Get()
+
+        public bool Delete(UserTask userTask)
         {
-            return await _tmsDbContext.Tasks.ToListAsync();
+            _tmsDbContext.Tasks.Attach(userTask);
+            _tmsDbContext.Tasks.Remove(userTask);
+            _tmsDbContext.SaveChanges();
+            return true;
+        }
+        public async Task<UserTask> GetTask(int id) {
+            return await _tmsDbContext.Tasks.FirstOrDefaultAsync(x => x.Id == id);
+        }
+        public async Task<IList<TaskUserViewModel>> Get()
+        {
+            return await (from t in _tmsDbContext.Tasks
+                       join u in _tmsDbContext.Users on t.AssignedTo equals u.Id
+                       select new TaskUserViewModel
+                       {
+                           Id = t.Id,
+                           TaskName = t.TaskName,
+                           Description = t.Description,
+                           StartDate = t.StartDate,
+                           EndDate = t.EndDate,
+                           AssignedTo = t.AssignedTo,
+                           AssignedUser = u.FirstName + " " + u.LastName
+                       }).ToListAsync();
         }
 
-        public async Task<UserTask> Get(int id)
+        public async Task<TaskUserViewModel> Get(int id)
         {
-            var task =  await _tmsDbContext.Tasks.FirstOrDefaultAsync(x => x.Id == id);
-            return task;
+            return await (from t in _tmsDbContext.Tasks
+                          join u in _tmsDbContext.Users on t.AssignedTo equals u.Id where t.Id == id
+                          select new TaskUserViewModel
+                          {
+                              Id = t.Id,
+                              TaskName = t.TaskName,
+                              Description = t.Description,
+                              StartDate = t.StartDate,
+                              EndDate = t.StartDate,
+                              AssignedTo = t.AssignedTo,
+                              AssignedUser = u.FirstName + " " + u.LastName
+                          }).FirstOrDefaultAsync();
         }
 
         public async Task<UserTask> InsertTask(UserTask userTask)
@@ -38,7 +70,7 @@ namespace TMS_API.Models
             var targetedTask = await _tmsDbContext.Tasks.FirstOrDefaultAsync(x => x.Id == id);
             if (targetedTask != null)
             {
-                targetedTask.Name = userTask.Name;
+                targetedTask.TaskName = userTask.TaskName;
                 targetedTask.Description = userTask.Description;
                 targetedTask.StartDate = userTask.StartDate;
                 targetedTask.EndDate = userTask.EndDate;

@@ -19,12 +19,12 @@ namespace TMS_API.Controllers
             _taskRepository = taskRepository;
         }
         [HttpGet]
-        public async Task<IEnumerable<UserTask>> Get()
+        public async Task<IEnumerable<TaskUserViewModel>> Get()
         {
             return await _taskRepository.Get();
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserTask>> Get(int id)
+        public async Task<ActionResult<TaskUserViewModel>> Get(int id)
         {
             var task = await _taskRepository.Get(id);
             if (task == null)
@@ -48,6 +48,17 @@ namespace TMS_API.Controllers
             if (updatedTask == null)
                 return NotFound();
             return updatedTask;
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<bool>> Delete(int id)
+        {
+            var task = await _taskRepository.GetTask(id);
+            if (task == null)
+                return BadRequest();
+            var dlt = _taskRepository.Delete(task);
+            if (dlt)
+                return true;
+            return false;
         }
 
     }

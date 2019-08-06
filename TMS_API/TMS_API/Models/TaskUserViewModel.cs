@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TMS_API.Models
 {
-    public class UserTask
+    public class TaskUserViewModel
     {
         public int Id { get; set; }
         public string TaskName { get; set; }
@@ -13,5 +13,6 @@ namespace TMS_API.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int AssignedTo { get; set; }
+        public string AssignedUser { get; set; }
     }
 }

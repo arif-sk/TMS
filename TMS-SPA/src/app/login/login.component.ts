@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
   login(model: any) {
-    this.loginServices.login(this.model).subscribe(next =>{
+    this.loginServices.login(this.model).subscribe(next => {
       this.alertify.success('logged in successfully');
     }, error => {
       this.alertify.error('login failed');

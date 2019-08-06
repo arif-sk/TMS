@@ -31,7 +31,6 @@ E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\bin\Debug\netcoreapp2.2\TMS_API.runti
 E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\bin\Debug\netcoreapp2.2\TMS_API.runtimeconfig.dev.json
 E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\bin\Debug\netcoreapp2.2\TMS_API.dll
 E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\bin\Debug\netcoreapp2.2\TMS_API.pdb
-E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\obj\Debug\netcoreapp2.2\TMS_API.csprojAssemblyReference.cache
 E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\obj\Debug\netcoreapp2.2\TMS_API.csproj.CoreCompileInputs.cache
 E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\obj\Debug\netcoreapp2.2\TMS_API.RazorAssemblyInfo.cache
 E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\obj\Debug\netcoreapp2.2\TMS_API.RazorAssemblyInfo.cs
@@ -40,3 +39,4 @@ E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\obj\Debug\netcoreapp2.2\TMS_API.Assem
 E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\obj\Debug\netcoreapp2.2\TMS_API.RazorTargetAssemblyInfo.cache
 E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\obj\Debug\netcoreapp2.2\TMS_API.dll
 E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\obj\Debug\netcoreapp2.2\TMS_API.pdb
+E:\DotNet Core App\TMS\TMS\TMS_API\TMS_API\obj\Debug\netcoreapp2.2\TMS_API.csprojAssemblyReference.cache

@@ -1,37 +1,100 @@
 <div class="container">
-  <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#profile">Profile</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#">Disabled</a>
-  </li>
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-    <div class="dropdown-menu">
-      <a class="dropdown-item">Action</a>
-      <a class="dropdown-item" >Another action</a>
-      <a class="dropdown-item" href="#">Something else here</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#">Separated link</a>
+  <div class="tab-panel">
+    <tabset class="member-tabset" style="margin: 20px;">
+      <tab heading="Add User">
+        <h4>Description</h4>
+        <p>description description description </p>
+      </tab>
+      <tab heading="Add Task">
+          <button type="button" style="margin:10px;" class="btn btn-primary" (click)="openModal(template)"><i class="fa fa-plus"></i> Add Task</button>
+          <br>
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Task Name</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+                  <th scope="col">Assigned To</th>    
+                  <th scope="col">Action</th>                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let t of allTaskList">
+                  <td style="display:none">{{t.id}}</td>
+                  <td>{{t.taskName}}</td>
+                  <td>{{t.description}}</td>
+                  <td>{{t.startDate|date}}</td>
+                  <td>{{t.endDate|date}}</td>
+                  <td>{{t.assignedUser}}</td>
+                  <td>
+                    <button (click)="editTask(t)" class="btn btn-sm btn-warning" style="width: 70px;"> Edit</button>  
+                    <button (click)="deleteTask(t)" style="margin-left:20px; width: 70px;" class="btn btn-sm btn-danger"> Delete</button>  
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+      </tab>
+    </tabset>
+  </div>
+</div>
+
+
+
+<ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Add Task</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </li>
-</ul>
-<div id="myTabContent" class="tab-content">
-  <div class="tab-pane fade show active" id="home">
-    <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-  </div>
-  <div class="tab-pane fade" id="profile">
-    <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
-  </div>
-  <div class="tab-pane fade" id="dropdown1">
-    <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.</p>
-  </div>
-  <div class="tab-pane fade" id="dropdown2">
-    <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater.</p>
-  </div>
-</div>
-</div>
+    <div class="modal-body" style="padding: 20px 30px 20px 30px">
+        <div class="row">
+             <form  #taskForm="ngForm" (ngSubmit)="addTask()">
+               <div class="form-group">
+                 <label for="taskName">First Name</label>
+                 <input type="text" class="form-control" id="taskName" placeholder="Task Name"
+                 required name="taskName" [(ngModel)]="task.taskName">
+             </div>
+             <div class="form-group">
+               <label for="description">Description</label>
+                 <textarea class="form-control" id="description"  placeholder="Description" 
+                 required name="description" cols="1" [(ngModel)]="task.description"></textarea>
+             </div> 
+             <div class="row">
+               <div class="col-6">
+                   <div class="form-group">
+                       <label for="startDate">Start Date</label>
+                       <input type="text" id="startDate" name="startDate" [(ngModel)]="task.startDate"
+                        placeholder="Datepicker" class="form-control"  bsDatepicker [bsConfig]="{ isAnimated: true }" required>
+                     </div>
+               </div>
+               <div class="col-6">
+                   <div class="form-group">
+                       <label for="endDate">End Date</label>
+                       <input type="text" id="endDate" name="endDate" [(ngModel)]="task.endDate"
+                        placeholder="Datepicker" class="form-control"  bsDatepicker [bsConfig]="{ isAnimated: true }" required>
+                   </div> 
+               </div>
+             </div>
+               <div class="form-group">
+                   <label for="assinedTo">Assigned To</label><br>
+                   <div class="btn-group" dropdown>
+                       <button id="button-basic" dropdownToggle type="button" class="btn btn-default dropdown-toggle"
+                               aria-controls="dropdown-basic" style="width: 350px; border: 1px solid lightgray">
+                         Select User <span class="caret"></span>
+                       </button>
+                       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                           role="menu" aria-labelledby="button-basic">
+                         <li role="menuitem" class="dropdown-item">Action</li>
+                         <li role="menuitem" class="dropdown-item" >Another action</li>
+                         <li role="menuitem" class="dropdown-item">Something else here</li>
+                       </ul>
+                     </div>          
+               </div>  
+               <button type="submit" class="btn btn-primary btn-lg" 
+               [disabled]="!taskForm.valid">Submit</button>
+             </form>
+            </div>
+          </div>
+  </ng-template>
