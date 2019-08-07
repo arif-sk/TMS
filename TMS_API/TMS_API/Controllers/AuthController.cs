@@ -39,7 +39,7 @@ namespace TMS_API.Controllers
                 Email = userForRegisterDto.Email,
                 Mobile = userForRegisterDto.Mobile,
                 Address = userForRegisterDto.Address,
-                UserRole = "Admin"
+                UserRole = "admin"
 
             };
             var createdUser = await _authRepsitory.Register(userToCreate, userForRegisterDto.Password);
@@ -54,9 +54,8 @@ namespace TMS_API.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                new Claim(ClaimTypes.Name,userForLoginDtos.email),
-                new Claim(ClaimTypes.Role, "Admin"),
-                new Claim(ClaimTypes.Role, "User")
+                new Claim(ClaimTypes.Name,user.Email),
+                new Claim(ClaimTypes.Role, user.UserRole)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8
                             .GetBytes(_conf.GetSection("AppSettings:Token").Value));

@@ -13,6 +13,8 @@ import { LoginComponent } from './login/login.component';
 import { appRoutes } from './routes';
 import { FormsModule } from '@angular/forms';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -23,7 +25,8 @@ export function tokenGetter() {
       NavComponent,
       RegistrationComponent,
       LoginComponent,
-      AdminDashboardComponent
+      AdminDashboardComponent,
+      UserDashboardComponent
    ],
    imports: [
       BrowserModule,
@@ -38,7 +41,7 @@ export function tokenGetter() {
          config: {
             tokenGetter: tokenGetter,
             whitelistedDomains: ['localhost:5000', 'localhost:12381'],
-            blacklistedRoutes: ['localhost:5000/api/auth', 'localhost:12321/api/auth','localhost:5000/api/task']
+            blacklistedRoutes: ['localhost:5000/api/auth', 'localhost:12321/api/auth', 'localhost:5000/api/task']
          }
       })
    ],

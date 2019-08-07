@@ -21,7 +21,12 @@ export class LoginComponent implements OnInit {
     }, error => {
       this.alertify.error('login failed');
     }, () => {
-      this.router.navigate(['/admindashboard']);
+      if (this.loginServices.decodedToken.role === 'admin') {
+        this.router.navigate(['/admindashboard']);
+      }
+      if (this.loginServices.decodedToken.role === 'user') {
+        this.router.navigate(['/userdashboard']);
+      }
     }
     );
   }

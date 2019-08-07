@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AdminDashboardService } from '../_services/admin-dashboard.service';
 import { AlertifyService } from '../_services/alertify.service';
@@ -9,12 +9,17 @@ import { AlertifyService } from '../_services/alertify.service';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
+  @ViewChild('usermodal') userModal: TemplateRef<any>;
+  @ViewChild('taskmodal') taskModal: TemplateRef<any>;
+
   UserTask: any = {};
   modalRef: BsModalRef;
   public allTaskList: ITaskUserView[];
   result: boolean;
   public allUsers: IUser[];
   addedTask: ITask;
+  model: any = {};
+  addedUser: IUser;
   constructor(private modalService: BsModalService,
      private adminServices: AdminDashboardService, private alertify: AlertifyService) {
       this.getAllUsers();
@@ -23,30 +28,64 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit() {
     this.getAllTaskList();
   }
-  openTaskModal(template: TemplateRef<any>) {
+  openTModal() {
     this.UserTask = {
-      id: 0,
+      Id: 0,
       TaskName: '',
       Description: '',
       StartDate: new Date,
       EndDate: new Date,
-      AssignedTo: null
+      AssignedTo: 0
     };
+    this.openTaskModal(this.taskModal);
+  }
+  openUModal() {
+    this.model = {
+      Id: 0,
+      FirstName: '',
+      LastName: '',
+      Email: '',
+      Password: '',
+      ConfirmPassword: '',
+      Mobile: '',
+      Address: ''
+    };
+    this.openUserModal(this.userModal);
+  }
+  openTaskModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+  openUserModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
   closeTaskModal() {
     this.modalRef.hide();
   }
+  closeUserModal() {
+    this.modalRef.hide();
+  }
 
   addTask(UserTask: any) {
-    this.adminServices.addTask(this.UserTask).subscribe( resp => {
-      this.addedTask = resp as ITask;
-      this.getAllTaskList();
-      this.closeTaskModal();
-      this.alertify.success('Task added successfully');
-    }, error => {
-      this.alertify.error('Error occured while adding task');
-    });
+    if (this.UserTask.Id === 0) {
+      this.adminServices.addTask(this.UserTask).subscribe( resp => {
+        this.addedTask = resp as ITask;
+        this.getAllTaskList();
+        this.closeTaskModal();
+        this.alertify.success('Task added successfully');
+        this.UserTask = {
+          Id: 0,
+          TaskName: '',
+          Description: '',
+          StartDate: new Date,
+          EndDate: new Date,
+          AssignedTo: 0
+        };
+      }, error => {
+        this.alertify.error('Error occured while adding task');
+      });
+    } else {
+      this.adminServices.updateTask(this.UserTask);
+    }
   }
   getAllTaskList() {
     this.adminServices.getAllTaskList().subscribe ( resp => {
@@ -59,7 +98,15 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
   editTask(t: ITaskUserView) {
-    console.log(t);
+    this.openTaskModal(this.taskModal);
+    this.UserTask = {
+      Id: t.id,
+      TaskName: t.taskName,
+      Description: t.description,
+      StartDate: new Date(t.startDate),
+      EndDate: new Date(t.endDate),
+      AssignedTo: t.assignedTo
+    };
   }
   deleteTask(t: ITaskUserView) {
     this.adminServices.deleteTask(t.id).subscribe(resp => {
@@ -74,12 +121,16 @@ export class AdminDashboardComponent implements OnInit {
        }
     });
   }
-  editUser(u: IUser) {
-
-  }
-  deleteUser(u: IUser) {
-
-  }
+  addUser(model: any) {
+      this.adminServices.addUser(this.model).subscribe( resp => {
+        this.addedUser = resp as IUser;
+        this.getAllUsers();
+        this.closeUserModal();
+        this.alertify.success('User added successfully');
+      }, error => {
+        this.alertify.error('Error occured while adding task');
+      });
+}
 }
 
 interface ITaskUserView {

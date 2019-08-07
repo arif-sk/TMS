@@ -65,10 +65,10 @@ namespace TMS_API.Models
             return userTask;
         }
 
-        public async Task<UserTask> UpdateTask(UserTask userTask, int id)
+        public async Task<UserTask> UpdateTask(int id, UserTask userTask)
         {
             var targetedTask = await _tmsDbContext.Tasks.FirstOrDefaultAsync(x => x.Id == id);
-            if (targetedTask != null)
+            if (id >0 && targetedTask != null)
             {
                 targetedTask.TaskName = userTask.TaskName;
                 targetedTask.Description = userTask.Description;

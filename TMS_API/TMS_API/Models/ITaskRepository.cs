@@ -10,7 +10,7 @@ namespace TMS_API.Models
         Task<IList<TaskUserViewModel>> Get();
         Task<TaskUserViewModel> Get(int id);
         Task<UserTask> InsertTask(UserTask userTask);
-        Task<UserTask> UpdateTask(UserTask userTask, int id);
+        Task<UserTask> UpdateTask(int id ,UserTask userTask );
         bool Delete(UserTask userTask);
         Task<UserTask> GetTask(int id);
     }

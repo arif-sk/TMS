@@ -37,14 +37,14 @@ namespace TMS_API.Controllers
             if (userTask == null || !ModelState.IsValid)
                 return BadRequest();
             var addedUserTask = await _taskRepository.InsertTask(userTask);
-            return addedUserTask; 
+            return addedUserTask;
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserTask>> Put([FromBody] UserTask userTask, int id)
+        public async Task<ActionResult<UserTask>> Put([FromRoute]int id, [FromBody] UserTask userTask)
         {
-            if (id < 1 || userTask == null)
+            if (id > 0 && userTask == null)
                 return BadRequest();
-            var updatedTask = await _taskRepository.UpdateTask(userTask,id);
+            var updatedTask = await _taskRepository.UpdateTask(id, userTask);
             if (updatedTask == null)
                 return NotFound();
             return updatedTask;
