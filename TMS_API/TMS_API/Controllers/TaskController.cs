@@ -32,12 +32,12 @@ namespace TMS_API.Controllers
             return task;
         }
         [HttpPost]
-        public async Task<ActionResult<UserTask>> Create([FromBody] UserTask userTask)
+        public async Task<ActionResult<UserTask>> Post([FromBody] UserTask userTask)
         {
             if (userTask == null || !ModelState.IsValid)
                 return BadRequest();
             var addedUserTask = await _taskRepository.InsertTask(userTask);
-            return StatusCode(201); 
+            return addedUserTask; 
         }
         [HttpPut("{id}")]
         public async Task<ActionResult<UserTask>> Put([FromBody] UserTask userTask, int id)

@@ -2,11 +2,40 @@
   <div class="tab-panel">
     <tabset class="member-tabset" style="margin: 20px;">
       <tab heading="Add User">
-        <h4>Description</h4>
-        <p>description description description </p>
+        <button type="button" style="margin:10px;" class="btn btn-primary" (click)="openTaskModal(usermodal)">
+          <i class="fa fa-plus"></i> Add Task</button>
+        <br>
+          <table class="table">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Addesss</th>    
+                <th scope="col">Action</th>                  
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let u of allUsers">
+                <td style="display:none">{{u.id}}</td>
+                <td>{{u.firstName}}</td>
+                <td>{{u.lastName}}</td>
+                <td>{{u.email}}</td>
+                <td>{{u.mobile}}</td>
+                <td>{{u.address}}</td>
+                <td>
+                  <button (click)="editUser(u)" class="btn btn-sm btn-warning" style="width: 70px;"> Edit</button>  
+                  <button (click)="deleteUser(u)" style="margin-left:20px; width: 70px;" 
+                  class="btn btn-sm btn-danger"> Delete</button>  
+                </td>
+              </tr>
+            </tbody>
+          </table>
       </tab>
       <tab heading="Add Task">
-          <button type="button" style="margin:10px;" class="btn btn-primary" (click)="openModal(template)"><i class="fa fa-plus"></i> Add Task</button>
+          <button type="button" style="margin:10px;" class="btn btn-primary" (click)="openTaskModal(template)">
+            <i class="fa fa-plus"></i> Add Task</button>
           <br>
             <table class="table">
               <thead class="thead-light">
@@ -29,7 +58,8 @@
                   <td>{{t.assignedUser}}</td>
                   <td>
                     <button (click)="editTask(t)" class="btn btn-sm btn-warning" style="width: 70px;"> Edit</button>  
-                    <button (click)="deleteTask(t)" style="margin-left:20px; width: 70px;" class="btn btn-sm btn-danger"> Delete</button>  
+                    <button (click)="deleteTask(t)" style="margin-left:20px; width: 70px;" 
+                    class="btn btn-sm btn-danger"> Delete</button>  
                   </td>
                 </tr>
               </tbody>
@@ -48,53 +78,57 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body" style="padding: 20px 30px 20px 30px">
+    <div class="modal-body" style="padding: 20px 30px 20px 30px;text-align: center;">
         <div class="row">
              <form  #taskForm="ngForm" (ngSubmit)="addTask()">
                <div class="form-group">
                  <label for="taskName">First Name</label>
                  <input type="text" class="form-control" id="taskName" placeholder="Task Name"
-                 required name="taskName" [(ngModel)]="task.taskName">
+                 required name="TaskName" [(ngModel)]="UserTask.TaskName">
              </div>
              <div class="form-group">
                <label for="description">Description</label>
-                 <textarea class="form-control" id="description"  placeholder="Description" 
-                 required name="description" cols="1" [(ngModel)]="task.description"></textarea>
+                 <textarea class="form-control" id="Description"  placeholder="Description" 
+                 required name="description" cols="1" [(ngModel)]="UserTask.Description"></textarea>
              </div> 
              <div class="row">
                <div class="col-6">
                    <div class="form-group">
                        <label for="startDate">Start Date</label>
-                       <input type="text" id="startDate" name="startDate" [(ngModel)]="task.startDate"
+                       <input type="text" id="startDate" name="StartDate" [(ngModel)]="UserTask.StartDate"
                         placeholder="Datepicker" class="form-control"  bsDatepicker [bsConfig]="{ isAnimated: true }" required>
                      </div>
                </div>
                <div class="col-6">
                    <div class="form-group">
                        <label for="endDate">End Date</label>
-                       <input type="text" id="endDate" name="endDate" [(ngModel)]="task.endDate"
+                       <input type="text" id="endDate" name="EndDate" [(ngModel)]="UserTask.EndDate"
                         placeholder="Datepicker" class="form-control"  bsDatepicker [bsConfig]="{ isAnimated: true }" required>
                    </div> 
                </div>
              </div>
                <div class="form-group">
-                   <label for="assinedTo">Assigned To</label><br>
-                   <div class="btn-group" dropdown>
-                       <button id="button-basic" dropdownToggle type="button" class="btn btn-default dropdown-toggle"
-                               aria-controls="dropdown-basic" style="width: 350px; border: 1px solid lightgray">
-                         Select User <span class="caret"></span>
-                       </button>
-                       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-                           role="menu" aria-labelledby="button-basic">
-                         <li role="menuitem" class="dropdown-item">Action</li>
-                         <li role="menuitem" class="dropdown-item" >Another action</li>
-                         <li role="menuitem" class="dropdown-item">Something else here</li>
-                       </ul>
-                     </div>          
-               </div>  
+                <label for="assinedTo">Assigned To</label><br>
+                <select id="assinedTo" class="form-control" name="AssignedTo" [(ngModel)]="UserTask.AssignedTo" required>
+                  <option *ngFor="let u of allUsers" [value]="u.id">{{u.firstName}} {{u.lastName}}</option>
+                </select>
+         
+              </div>
                <button type="submit" class="btn btn-primary btn-lg" 
                [disabled]="!taskForm.valid">Submit</button>
              </form>
             </div>
           </div>
+  </ng-template>
+
+  <ng-template width="700px;"  #usermodal>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Add Task</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 20px 30px 20px 30px">
+      <app-registration></app-registration>  
+    </div>
   </ng-template>
