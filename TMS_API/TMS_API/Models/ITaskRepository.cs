@@ -13,5 +13,6 @@ namespace TMS_API.Models
         Task<UserTask> UpdateTask(int id ,UserTask userTask );
         bool Delete(UserTask userTask);
         Task<UserTask> GetTask(int id);
+        Task<IList<UserTask>> GetAssignedTaskToSpecificUser(int id);
     }
 }

@@ -55,7 +55,7 @@ namespace TMS_API.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                 new Claim(ClaimTypes.Name,user.Email),
-                new Claim(ClaimTypes.Role, user.UserRole)
+                new Claim(ClaimTypes.Role, user.UserRole),
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8
                             .GetBytes(_conf.GetSection("AppSettings:Token").Value));

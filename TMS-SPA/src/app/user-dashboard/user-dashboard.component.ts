@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminDashboardService } from '../_services/admin-dashboard.service';
+import { LoginService } from '../_services/login.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserDashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private adminService: AdminDashboardService,
+    private loginService: LoginService) { }
 
   ngOnInit() {
   }
-
+  getTaskAssignedToSpecificUser() {
+    let emil = this.loginService.decodedToken.unique_name;
+  }
 }

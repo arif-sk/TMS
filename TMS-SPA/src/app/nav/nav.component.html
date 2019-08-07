@@ -6,10 +6,13 @@
     </button>
   
     <div class="collapse navbar-collapse" id="navbarColor01">
-      <ul class="navbar-nav mr-auto" *ngIf="loggedIn()">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/admindashboard']" routerLinkActive="router-link-active" >Dashboard <span class="sr-only">(current)</span></a>
+          <a class="nav-link" *ngIf="loggedIn() && loginService.decodedToken?.role=='admin'" [routerLink]="['/admindashboard']" routerLinkActive="router-link-active" >Dashboard <span class="sr-only">(current)</span></a>
         </li>
+        <li class="nav-item active">
+            <a class="nav-link" *ngIf="loggedIn()&& loginService.decodedToken?.role=='user'" [routerLink]="['/userdashboard']" routerLinkActive="router-link-active" >Dashboard <span class="sr-only">(current)</span></a>
+          </li>
       </ul>
       <div class="dropdown" *ngIf="loggedIn()" dropdown>
         <a class="dropdown-toggle text-light" dropdownToggle>

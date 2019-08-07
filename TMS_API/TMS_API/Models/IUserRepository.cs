@@ -9,5 +9,6 @@ namespace TMS_API.Models
     public interface IUserRepository
     {
         Task<IList<User>> Get();
+        Task<User> GetUserByEmail(string email);
     }
 }

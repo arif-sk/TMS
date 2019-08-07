@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TMS_API.Dtos;
@@ -21,11 +22,13 @@ namespace TMS_API.Controllers
             _userRepository = userRepository;
             _authRepoasitory = authRepository;
         }
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IEnumerable<User>> Get()
         {
             return await _userRepository.Get();
         }
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult<User>> Post([FromBody] UserForRegisterDto userForRegisterDto)
         {
@@ -40,7 +43,6 @@ namespace TMS_API.Controllers
                 Mobile = userForRegisterDto.Mobile,
                 Address = userForRegisterDto.Address,
                 UserRole = "user"
-
             };
             var createdUser = await _authRepoasitory.Register(userToCreate, userForRegisterDto.Password);
             return createdUser;

@@ -81,5 +81,10 @@ namespace TMS_API.Models
             }
             return null;
         }
+
+        public async Task<IList<UserTask>> GetAssignedTaskToSpecificUser(int id)
+        {
+            return await _tmsDbContext.Tasks.Where(x => x.AssignedTo == id).ToListAsync();
+        }
     }
 }

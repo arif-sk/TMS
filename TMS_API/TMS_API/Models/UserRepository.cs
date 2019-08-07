@@ -20,5 +20,10 @@ namespace TMS_API.Models
         {
             return await _tmsDbComtext.Users.ToListAsync();
         }
+
+        public async  Task<User> GetUserByEmail(string email)
+        {
+            return await _tmsDbComtext.Users.FirstOrDefaultAsync(x => x.Email == email);
+        }
     }
 }

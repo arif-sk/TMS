@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TMS_API.Models;
@@ -13,16 +14,20 @@ namespace TMS_API.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskRepository _taskRepository;
+        private readonly IUserRepository _userRepository;
 
-        public TaskController(ITaskRepository taskRepository)
+        public TaskController(ITaskRepository taskRepository,IUserRepository userRepository)
         {
             _taskRepository = taskRepository;
+            _userRepository = userRepository;
         }
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IEnumerable<TaskUserViewModel>> Get()
         {
             return await _taskRepository.Get();
         }
+        [Authorize(Roles = "admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<TaskUserViewModel>> Get(int id)
         {
@@ -31,6 +36,7 @@ namespace TMS_API.Controllers
                 return BadRequest();
             return task;
         }
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult<UserTask>> Post([FromBody] UserTask userTask)
         {
@@ -39,6 +45,7 @@ namespace TMS_API.Controllers
             var addedUserTask = await _taskRepository.InsertTask(userTask);
             return addedUserTask;
         }
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<UserTask>> Put([FromRoute]int id, [FromBody] UserTask userTask)
         {
@@ -49,6 +56,7 @@ namespace TMS_API.Controllers
                 return NotFound();
             return updatedTask;
         }
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
@@ -59,6 +67,14 @@ namespace TMS_API.Controllers
             if (dlt)
                 return true;
             return false;
+        }
+        //[Authorize(Roles = "user")]
+        [HttpGet("GetAssignedTaskToSpecificUser")]
+        public async Task<IEnumerable<UserTask>> GetAssignedTaskToSpecificUser(string email)
+        {
+            var user = await _userRepository.GetUserByEmail(email);
+            var tasks = await _taskRepository.GetAssignedTaskToSpecificUser(user.Id);
+            return tasks;
         }
 
     }
