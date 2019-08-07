@@ -14,6 +14,11 @@ import { appRoutes } from './routes';
 import { FormsModule } from '@angular/forms';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { LoginService } from './_services/login.service';
+import { AlertifyService } from './_services/alertify.service';
+import { AdminDashboardService } from './_services/admin-dashboard.service';
+import { UserDashboardService } from './_services/user-dashboard.service';
+import { AuthGuard } from './_guards/auth.guard';
 
 
 export function tokenGetter() {
@@ -45,7 +50,13 @@ export function tokenGetter() {
          }
       })
    ],
-   providers: [],
+   providers: [
+      LoginService,
+      AlertifyService,
+      AdminDashboardService,
+      UserDashboardService,
+      AuthGuard
+   ],
    bootstrap: [
       AppComponent
    ]

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TMS_API.Dtos;
 using TMS_API.Models;
 
 namespace TMS_API.Controllers
@@ -45,9 +46,10 @@ namespace TMS_API.Controllers
             var addedUserTask = await _taskRepository.InsertTask(userTask);
             return addedUserTask;
         }
-        [Authorize(Roles = "admin")]
-        [HttpPut("{id}")]
-        public async Task<ActionResult<UserTask>> Put([FromRoute]int id, [FromBody] UserTask userTask)
+        //[Authorize(Roles = "admin")]
+        [HttpPut]
+        [Route("UpdateTask/{id}")]
+        public async Task<ActionResult<UserTask>> UpdateTask(int id, [FromBody] UserTask userTask)
         {
             if (id > 0 && userTask == null)
                 return BadRequest();
@@ -68,13 +70,13 @@ namespace TMS_API.Controllers
                 return true;
             return false;
         }
-        //[Authorize(Roles = "user")]
-        [HttpGet("GetAssignedTaskToSpecificUser")]
-        public async Task<IEnumerable<UserTask>> GetAssignedTaskToSpecificUser(string email)
+        [Authorize(Roles = "user")]
+        [Route("GetAssignedTaskToSpecificUser/{id}")]
+        [HttpGet]
+        public async Task<IEnumerable<UserTask>> GetAssignedTaskToSpecificUser(int id)
         {
-            var user = await _userRepository.GetUserByEmail(email);
-            var tasks = await _taskRepository.GetAssignedTaskToSpecificUser(user.Id);
-            return tasks;
+            var result =  await _taskRepository.GetAssignedTaskToSpecificUser(id);
+            return result.ToList();
         }
 
     }

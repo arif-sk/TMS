@@ -3,7 +3,7 @@
     <tabset class="member-tabset" style="margin: 20px;">
       <tab heading="Add User">
         <button type="button" style="margin:10px;" class="btn btn-primary" (click)="openUModal()">
-          <i class="fa fa-plus"></i> Add Task</button>
+          <i class="fa fa-plus"></i> Add User</button>
         <br>
           <table class="table">
             <thead class="thead-light">
@@ -98,7 +98,7 @@
                    <div class="form-group">
                        <label for="endDate">End Date</label>
                        <input type="text" id="endDate" name="EndDate" [(ngModel)]="UserTask.EndDate"
-                        placeholder="Datepicker" class="form-control"  bsDatepicker [bsConfig]="{ isAnimated: true }" required>
+                        placeholder="Datepicker" class="form-control"  bsDatepicker  [bsConfig]="{ isAnimated: true }" required>
                    </div> 
                </div>
              </div>

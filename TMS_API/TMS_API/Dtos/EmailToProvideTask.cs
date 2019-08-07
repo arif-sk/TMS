@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TMS_API.Dtos;
 
-namespace TMS_API.Models
+namespace TMS_API.Dtos
 {
-    public interface IUserRepository
+    public class EmailToProvideTask
     {
-        Task<IList<User>> Get();
+        public string Email { get; set; }
     }
 }

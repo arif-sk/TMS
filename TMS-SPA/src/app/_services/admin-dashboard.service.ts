@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,16 @@ userBaseUrl: any = 'http://localhost:12381/api/User/';
 id: number;
 constructor(private http: HttpClient) { }
 addTask(UserTask: any) {
+  console.log(UserTask);
   return this.http.post(this.baseUrl, UserTask);
 }
 updateTask(UserTask: any) {
-  console.log(UserTask.Id);
-  console.log(this.baseUrl + UserTask.Id);
-  return this.http.put(this.baseUrl + UserTask.Id, UserTask);
+  console.log(UserTask);
+  return this.http.put(this.baseUrl + 'UpdateTask/' + UserTask.Id, UserTask, {
+    headers: new HttpHeaders({
+      'Accept' : '*/*'
+    })
+  });
 }
 getAllTaskList() {
   return this.http.get(this.baseUrl);

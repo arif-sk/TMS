@@ -18,6 +18,7 @@ export class AdminDashboardComponent implements OnInit {
   result: boolean;
   public allUsers: IUser[];
   addedTask: ITask;
+  updatedTask: ITask;
   model: any = {};
   addedUser: IUser;
   constructor(private modalService: BsModalService,
@@ -72,19 +73,19 @@ export class AdminDashboardComponent implements OnInit {
         this.getAllTaskList();
         this.closeTaskModal();
         this.alertify.success('Task added successfully');
-        this.UserTask = {
-          Id: 0,
-          TaskName: '',
-          Description: '',
-          StartDate: new Date,
-          EndDate: new Date,
-          AssignedTo: 0
-        };
       }, error => {
         this.alertify.error('Error occured while adding task');
       });
     } else {
-      this.adminServices.updateTask(this.UserTask);
+        this.adminServices.updateTask(this.UserTask).subscribe(resp => {
+        this.updatedTask = resp as ITask;
+        this.getAllTaskList();
+        this.closeTaskModal();
+        this.alertify.success('Task updated successfuly');
+      }, error => {
+        this.alertify.error('Error occured while updating task');
+      }
+      );
     }
   }
   getAllTaskList() {

@@ -14,4 +14,13 @@ namespace TMS_API.Models
         public DateTime EndDate { get; set; }
         public int AssignedTo { get; set; }
     }
+    public class UserT
+    {
+        public int Id { get; set; }
+        public string TaskName { get; set; }
+        public string Description { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string AssignedTo { get; set; }
+    }
 }

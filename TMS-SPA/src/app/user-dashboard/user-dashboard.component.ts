@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminDashboardService } from '../_services/admin-dashboard.service';
 import { LoginService } from '../_services/login.service';
+import { UserDashboardService } from '../_services/user-dashboard.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -8,13 +8,27 @@ import { LoginService } from '../_services/login.service';
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
-
-  constructor(private adminService: AdminDashboardService,
+  id: any;
+  public tasks: ITask[];
+  constructor(private userDashboardService: UserDashboardService,
     private loginService: LoginService) { }
 
   ngOnInit() {
+    this.getTaskAssignedToSpecificUser();
   }
   getTaskAssignedToSpecificUser() {
-    let emil = this.loginService.decodedToken.unique_name;
+     this.id = this.loginService.decodedToken.nameid;
+      this.userDashboardService.getTaskAssignedToSpecificUser(this.id).subscribe(resp => {
+        this.tasks = resp as ITask[];
+        console.log(this.tasks);
+    });
   }
+}
+interface ITask {
+  id: number;
+  taskName: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  assignedTo: number;
 }
