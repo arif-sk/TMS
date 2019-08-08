@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     return true;
     }
     this.alertfy.error('UnAuthorized Access!!!');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/pageNotFount']);
     return false;
   }
 }
