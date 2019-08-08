@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDashboardService {
-baseUrl: any = 'http://localhost:5000/Api/Task/';
+baseUrl = environment.apiUrl + 'Task/';
 constructor(private http: HttpClient) { }
 getTaskAssignedToSpecificUser(id: any) {
   console.log(id);

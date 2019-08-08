@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminDashboardService {
-baseUrl: any = 'http://localhost:5000/api/Task/';
-userBaseUrl: any = 'http://localhost:5000/api/User/';
+baseUrl = environment.apiUrl + 'Task/';
+userBaseUrl: any = environment.apiUrl + 'User/';
 id: number;
 constructor(private http: HttpClient) { }
 addTask(UserTask: any) {
