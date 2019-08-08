@@ -15,7 +15,7 @@ namespace TMS_API.Dtos
         [Required]
         public string Email { get; set; }
         [Required]
-        [StringLength(20,MinimumLength = 3, ErrorMessage = "password must be between 3 to 20 characters")]
+        [StringLength(20,MinimumLength = 1, ErrorMessage = "password must be between 1 to 20 characters")]
         public string Password { get; set; }
         [Required]
         public string Mobile { get; set; }

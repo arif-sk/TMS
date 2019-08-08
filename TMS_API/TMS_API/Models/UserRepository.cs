@@ -21,5 +21,9 @@ namespace TMS_API.Models
             return await _tmsDbComtext.Users.ToListAsync();
         }
 
+        public async Task<IList<User>> GetUserListTypeUser()
+        {
+            return await _tmsDbComtext.Users.Where(x => x.UserRole == "user").ToListAsync();
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace TMS_API.Controllers
             var addedUserTask = await _taskRepository.InsertTask(userTask);
             return addedUserTask;
         }
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPut]
         [Route("UpdateTask/{id}")]
         public async Task<ActionResult<UserTask>> UpdateTask(int id, [FromBody] UserTask userTask)

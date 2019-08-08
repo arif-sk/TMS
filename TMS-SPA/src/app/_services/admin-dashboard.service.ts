@@ -6,8 +6,8 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AdminDashboardService {
-baseUrl: any = 'http://localhost:12381/api/Task/';
-userBaseUrl: any = 'http://localhost:12381/api/User/';
+baseUrl: any = 'http://localhost:5000/api/Task/';
+userBaseUrl: any = 'http://localhost:5000/api/User/';
 id: number;
 constructor(private http: HttpClient) { }
 addTask(UserTask: any) {
@@ -33,5 +33,8 @@ getAllUsers() {
 }
 addUser(model: any) {
   return this.http.post(this.userBaseUrl, model);
+}
+getUserListTypeUser() {
+  return this.http.get(this.userBaseUrl + 'GetUserListTypeUser');
 }
 }

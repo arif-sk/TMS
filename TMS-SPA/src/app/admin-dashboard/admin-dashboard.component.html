@@ -5,14 +5,15 @@
         <button type="button" style="margin:10px;" class="btn btn-primary" (click)="openUModal()">
           <i class="fa fa-plus"></i> Add User</button>
         <br>
-          <table class="table">
+          <table class="table table-bordered table-hover">
             <thead class="thead-light">
               <tr>
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
-                <th scope="col">Addesss</th>                 
+                <th scope="col">Addesss</th>    
+                <th scope="col">User Type</th>             
               </tr>
             </thead>
             <tbody>
@@ -23,6 +24,7 @@
                 <td>{{u.email}}</td>
                 <td>{{u.mobile}}</td>
                 <td>{{u.address}}</td>
+                <td>{{u.userRole|titlecase}}</td>
               </tr>
             </tbody>
           </table>
@@ -31,7 +33,7 @@
           <button type="button" style="margin:10px;" class="btn btn-primary" (click)="openTModal()">
             <i class="fa fa-plus"></i> Add Task</button>
           <br>
-            <table class="table">
+            <table class="table table-bordered table-hover">
               <thead class="thead-light">
                 <tr>
                   <th scope="col">Task Name</th>
@@ -52,9 +54,10 @@
                   <td style="display:none">{{t.assignedTo}}</td>
                   <td>{{t.assignedUser}}</td>
                   <td>
-                    <button (click)="editTask(t)" class="btn btn-sm btn-warning" style="width: 70px;"> Edit</button>  
-                    <button (click)="deleteTask(t)" style="margin-left:20px; width: 70px;" 
-                    class="btn btn-sm btn-danger"> Delete</button>  
+                    <button (click)="editTask(t)" class="btn btn-sm btn-primary" style="width: 80px;">
+                      <i class="fa fa-edit"></i> Edit</button>  
+                    <button (click)="deleteTask(t)" style="margin-left:20px; width: 80px;" 
+                    class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</button>  
                   </td>
                 </tr>
               </tbody>
@@ -64,11 +67,84 @@
   </div>
 </div>
 
-
+<ng-template #usermodal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add User</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form  #registerForm="ngForm" (ngSubmit)="addUser()">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" placeholder="First Name"
+              required name="firstName" [(ngModel)]="model.firstName" tabindex="1">
+          </div>
+          <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email"  placeholder="Email"
+              required name="email" [(ngModel)]="model.email" tabindex="3">
+          </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" placeholder="Last Name"
+                  required name="lastName" [(ngModel)]="model.lastName" tabindex="2">
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile</label>
+                <input type="text" class="form-control" id="mobile"  placeholder="Mobile"
+                required name="mobile" [(ngModel)]="model.mobile" tabindex="4">
+            </div>
+        </div>
+        </div>   
+         <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="address">Addrss</label>
+                    <textarea class="form-control" id="address" rows="2"
+                    required name="address" [(ngModel)]="model.address" tabindex="5"></textarea>
+                  </div>
+            </div>
+         </div>  
+         <div class="row">
+           <div class="col-6">
+              <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" id="password" placeholder="Password"
+                  required name="password" [(ngModel)]="model.password" autocomplete="new-password" tabindex="6">
+                </div>
+           </div>
+           <div class="col-6">
+              <div class="form-group">
+                  <label for="confirmPassword">Confirm Password</label>
+                  <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password"
+                  required name="confirmPassword" [(ngModel)]="model.confirmPassword" autocomplete="new-password" tabindex="7">
+              </div>
+           </div>
+         </div>  
+         <div class="row">
+            <div class="col-1"></div>
+            <div class="col-3" class="pull-right"> 
+                <button type="button" class="btn btn-primary btn-md" (click)="modalRef.hide()">Close</button>
+              </div>
+            <div class="col-6"></div>
+            <div class="col-2"> 
+              <button type="submit" class="btn btn-primary btn-md" 
+              [disabled]="!registerForm.valid || model.password != model.confirmPassword">Save</button>
+            </div>
+         </div> 
+          </form>
+  </div>
+</ng-template>
 
 <ng-template #taskmodal>
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Add Task</h4>
+      <h4 class="modal-title pull-left">{{taskModalTitle}}</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -105,88 +181,24 @@
                <div class="form-group">
                 <label for="assinedTo">Assigned To</label><br>
                 <select id="assinedTo" class="form-control" name="AssignedTo" [(ngModel)]="UserTask.AssignedTo" required>
-                  <option *ngFor="let u of allUsers" [value]="u.id">{{u.firstName}} {{u.lastName}}</option>
+                  <option *ngFor="let u of usersTypeUser" [value]="u.id">{{u.firstName}} {{u.lastName}}</option>
                 </select>
          
               </div>
-               <button type="submit" class="btn btn-primary btn-lg" 
-               [disabled]="!taskForm.valid">Submit</button>
+              <div class="row">
+                <div class="col-1"></div>
+                <div class="col-3" class="pull-right"> 
+                    <button type="button" class="btn btn-primary btn-md" (click)="modalRef.hide()">Close</button>
+                  </div>
+                <div class="col-6"></div>
+                <div class="col-2"> 
+                  <button type="submit" class="btn btn-primary btn-md" 
+                  [disabled]="!taskForm.valid">{{btnSaveUpdateTest}}</button>
+                </div>
+             </div>
              </form>
             </div>
           </div>
   </ng-template>
 
-  <ng-template #usermodal>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Add User</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form  #registerForm="ngForm" (ngSubmit)="addUser()">
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label for="firstName">First Name</label>
-              <input type="text" class="form-control" id="firstName" placeholder="First Name"
-                required name="firstName" [(ngModel)]="model.firstName">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email"  placeholder="Email"
-                required name="email" [(ngModel)]="model.email">
-            </div>
-          </div>
-          <div class="col-6">
-              <div class="form-group">
-                  <label for="lastName">Last Name</label>
-                  <input type="text" class="form-control" id="lastName" placeholder="Last Name"
-                    required name="lastName" [(ngModel)]="model.lastName">
-              </div>
-              <div class="form-group">
-                  <label for="mobile">Mobile</label>
-                  <input type="text" class="form-control" id="mobile"  placeholder="Mobile"
-                  required name="mobile" [(ngModel)]="model.mobile">
-              </div>
-          </div>
-          </div>   
-           <div class="row">
-              <div class="col-12">
-                  <div class="form-group">
-                      <label for="address">Addrss</label>
-                      <textarea class="form-control" id="address" rows="2"
-                      required name="address" [(ngModel)]="model.address"></textarea>
-                    </div>
-              </div>
-           </div>  
-           <div class="row">
-             <div class="col-6">
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Password"
-                    required name="password" [(ngModel)]="model.password" autocomplete="new-password">
-                  </div>
-             </div>
-             <div class="col-6">
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password"
-                    required name="confirmPassword" [(ngModel)]="model.confirmPassword" autocomplete="new-password">
-                </div>
-             </div>
-           </div>  
-           <div class="row">
-              <div class="col-1"></div>
-              <div class="col-3" class="pull-right"> 
-                  <button type="button" class="btn btn-primary btn-md" (click)="modalRef.hide()">Close</button>
-                </div>
-              <div class="col-6"></div>
-              <div class="col-2"> 
-                <button type="submit" class="btn btn-primary btn-md" 
-                [disabled]="!registerForm.valid || model.password != model.confirmPassword">Submit</button>
-              </div>
-           </div> 
-            </form>
-    </div>
-  </ng-template>
+ 

@@ -7,7 +7,7 @@ import { from } from 'rxjs';
   providedIn: 'root'
 })
 export class RegisterService {
-  baseUrl = 'http://localhost:12381/api/auth/';
+  baseUrl = 'http://localhost:5000/api/auth/';
   jwtHelper = new JwtHelperService();
   decodedToken: any;
 constructor(private http: HttpClient) { }

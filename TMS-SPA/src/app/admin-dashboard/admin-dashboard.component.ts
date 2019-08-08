@@ -21,13 +21,19 @@ export class AdminDashboardComponent implements OnInit {
   updatedTask: ITask;
   model: any = {};
   addedUser: IUser;
+  taskModalTitle: any;
+  btnSaveUpdateTest: any;
+  usersTypeUser: IUser[];
+  showDirectionLinks = true;
+
   constructor(private modalService: BsModalService,
      private adminServices: AdminDashboardService, private alertify: AlertifyService) {
-      this.getAllUsers();
   }
 
   ngOnInit() {
     this.getAllTaskList();
+    this.getUserListTypeUser();
+    this.getAllUsers();
   }
   openTModal() {
     this.UserTask = {
@@ -36,8 +42,11 @@ export class AdminDashboardComponent implements OnInit {
       Description: '',
       StartDate: new Date,
       EndDate: new Date,
-      AssignedTo: 0
+      AssignedTo: ''
     };
+    this.taskModalTitle = 'Add Task';
+    this.btnSaveUpdateTest = 'Save';
+    this.getUserListTypeUser();
     this.openTaskModal(this.taskModal);
   }
   openUModal() {
@@ -99,6 +108,8 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
   editTask(t: ITaskUserView) {
+    this.taskModalTitle = 'Update Task';
+    this.btnSaveUpdateTest = 'Update';
     this.openTaskModal(this.taskModal);
     this.UserTask = {
       Id: t.id,
@@ -131,6 +142,11 @@ export class AdminDashboardComponent implements OnInit {
       }, error => {
         this.alertify.error('Error occured while adding task');
       });
+}
+getUserListTypeUser () {
+  this.adminServices.getUserListTypeUser().subscribe( resp => {
+    this.usersTypeUser = resp as IUser[];
+  });
 }
 }
 

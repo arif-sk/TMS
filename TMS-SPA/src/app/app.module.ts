@@ -19,6 +19,9 @@ import { AlertifyService } from './_services/alertify.service';
 import { AdminDashboardService } from './_services/admin-dashboard.service';
 import { UserDashboardService } from './_services/user-dashboard.service';
 import { AuthGuard } from './_guards/auth.guard';
+import { AdminRoleGuard } from './_guards/adminRole.guard';
+import { UserRoleGuard } from './_guards/userRole.guard';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 export function tokenGetter() {
@@ -31,7 +34,8 @@ export function tokenGetter() {
       RegistrationComponent,
       LoginComponent,
       AdminDashboardComponent,
-      UserDashboardComponent
+      UserDashboardComponent,
+      PageNotFoundComponent
    ],
    imports: [
       BrowserModule,
@@ -46,7 +50,7 @@ export function tokenGetter() {
          config: {
             tokenGetter: tokenGetter,
             whitelistedDomains: ['localhost:5000', 'localhost:12381'],
-            blacklistedRoutes: ['localhost:5000/api/auth', 'localhost:12321/api/auth', 'localhost:5000/api/task']
+            blacklistedRoutes: ['localhost:5000/api/auth', 'localhost:12321/api/auth']
          }
       })
    ],
@@ -55,7 +59,7 @@ export function tokenGetter() {
       AlertifyService,
       AdminDashboardService,
       UserDashboardService,
-      AuthGuard
+      AuthGuard, AdminRoleGuard, UserRoleGuard
    ],
    bootstrap: [
       AppComponent

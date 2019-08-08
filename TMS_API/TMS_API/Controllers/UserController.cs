@@ -28,6 +28,12 @@ namespace TMS_API.Controllers
         {
             return await _userRepository.Get();
         }
+        //[Authorize(Roles = "admin")]
+        [HttpGet("GetUserListTypeUser")]
+        public async Task<IEnumerable<User>> GetUserListTypeUser()
+        {
+            return await _userRepository.GetUserListTypeUser();
+        }
         [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult<User>> Post([FromBody] UserForRegisterDto userForRegisterDto)
