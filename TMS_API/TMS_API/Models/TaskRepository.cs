@@ -52,7 +52,7 @@ namespace TMS_API.Models
                               TaskName = t.TaskName,
                               Description = t.Description,
                               StartDate = t.StartDate,
-                              EndDate = t.StartDate,
+                              EndDate = t.EndDate,
                               AssignedTo = t.AssignedTo,
                               AssignedUser = u.FirstName + " " + u.LastName
                           }).FirstOrDefaultAsync();

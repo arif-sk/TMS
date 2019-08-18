@@ -8,10 +8,6 @@ import { AdminRoleGuard } from './_guards/adminRole.guard';
 import { UserRoleGuard } from './_guards/userRole.guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
-
-
-
-
 export const appRoutes: Routes = [
     {path: '', component: RegistrationComponent},
     {path: 'login', component: LoginComponent},
