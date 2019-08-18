@@ -21,7 +21,7 @@ namespace TMS_API.Controllers
         private readonly IAuthRepository _authRepsitory;
         private readonly IConfiguration _conf;
 
-        public AuthController(IAuthRepository authRepository,IConfiguration conf)
+        public AuthController(IAuthRepository authRepository, IConfiguration conf)
         {
             _authRepsitory = authRepository;
             _conf = conf;
@@ -54,8 +54,9 @@ namespace TMS_API.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                new Claim(ClaimTypes.Name,user.Email),
+                new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.Role, user.UserRole),
+                new Claim(ClaimTypes.Name,user.FirstName + " " + user.LastName)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8
                             .GetBytes(_conf.GetSection("AppSettings:Token").Value));
