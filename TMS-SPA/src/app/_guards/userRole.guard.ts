@@ -9,7 +9,7 @@ import { AlertifyService } from '../_services/alertify.service';
 export class UserRoleGuard implements CanActivate {
   constructor(private loginService: LoginService, private router: Router,
     private alertfy: AlertifyService) {}
-  canActivate():  boolean {
+  canActivate(): boolean {
     if (!this.loginService.loggedIn()) {
         this.alertfy.error('UnAuthorized Access!!!');
         this.router.navigate(['/pageNotFount']);
